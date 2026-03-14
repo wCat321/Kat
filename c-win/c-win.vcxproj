@@ -133,10 +133,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="kat.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="panel.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="gui.h" />
+    <ClInclude Include="kat.h" />
+    <ClInclude Include="panel.h" />
     <ClInclude Include="raygui.h" />
+    <ClInclude Include="stdkat.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="kat_style.rgs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

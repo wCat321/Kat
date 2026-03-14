@@ -13,15 +13,53 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\kat">
+      <UniqueIdentifier>{ed82e4a9-b02f-44f5-b638-20e0aab5836c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\kat">
+      <UniqueIdentifier>{2c91cae5-c3e6-43ca-b329-d3828819300c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui">
+      <UniqueIdentifier>{1cb0909c-91aa-414e-a34d-c7087b8e2d10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ray">
+      <UniqueIdentifier>{fab64708-c10d-4dfc-86be-407c39990cfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui">
+      <UniqueIdentifier>{1d846d64-5969-40d3-8e8e-3aa6133dd405}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="kat.c">
+      <Filter>Source Files\kat</Filter>
+    </ClCompile>
+    <ClCompile Include="panel.c">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="kat.h">
+      <Filter>Header Files\kat</Filter>
+    </ClInclude>
+    <ClInclude Include="gui.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="stdkat.h">
+      <Filter>Header Files\ray</Filter>
+    </ClInclude>
     <ClInclude Include="raygui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="panel.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="kat_style.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
