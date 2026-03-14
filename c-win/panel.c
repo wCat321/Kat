@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "raylib.h"
 
-void PanelInit(Panel* panel)
+void INIT_Panel(Panel* panel)
 {
     if (!panel) return;
 
@@ -20,6 +20,11 @@ void PanelInit(Panel* panel)
     panel->children = NULL;
     panel->childCount = 0;
     panel->childCapacity = 0;
+
+    panel->draw = NULL;
+    panel->update = NULL;
+    panel->free = NULL;
+    panel->data = NULL;
 }
 
 static Rectangle PanelComputeContentRect(Panel* panel)
@@ -86,4 +91,22 @@ void PanelAddChild(Panel* parent, Panel* child)
     parent->children[parent->childCount] = child;
     child->parent = parent;
     parent->childCount++;
+}
+
+void PanelDrawTree(Panel* panel)
+{
+    if (panel->draw)
+        panel->draw(panel);
+
+    for (int i = 0; i < panel->childCount; i++)
+        PanelDrawTree(panel->children[i]);
+}
+
+void PanelUpdateTree(Panel* panel)
+{
+    if (panel->update)
+        panel->update(panel);
+
+    for (int i = 0; i < panel->childCount; i++)
+        PanelUpdateTree(panel->children[i]);
 }

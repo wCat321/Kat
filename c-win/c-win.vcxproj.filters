@@ -39,6 +39,9 @@
     <ClCompile Include="panel.c">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
+    <ClCompile Include="header_panel.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="kat.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="panel.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="header_panel.h">
       <Filter>Header Files\gui</Filter>
     </ClInclude>
   </ItemGroup>

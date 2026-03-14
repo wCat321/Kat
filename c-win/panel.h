@@ -4,33 +4,34 @@
 
 typedef struct Panel Panel;
 
+typedef void (*PanelDrawFn)(Panel* panel);
+typedef void (*PanelUpdateFn)(Panel* panel);
+typedef void (*PanelFreeFn)(Panel* panel);
+
 struct Panel
 {
     Panel* parent;
 
-    Rectangle rect;        // full panel area
-    Rectangle contentRect; // area children can occupy
+    Rectangle rect;
+    Rectangle contentRect;
 
-    Vector2 start;         // percent start inside parent contentRect
-    Vector2 end;           // percent end inside parent contentRect
+    Vector2 start;
+    Vector2 end;
 
-    // optional padding / header offsets
-    Vector4 contentMargin; // left, top, right, bottom
+    Vector4 contentMargin;
 
     Panel** children;
     int childCount;
     int childCapacity;
+
+    PanelDrawFn draw;
+    PanelUpdateFn update;
+    PanelFreeFn free;
+
+    void* data;   // custom widget data
 };
 
-#define MakePanel(p) \
-    Panel p;          \
-    PanelInit(&p)
-
-#define MakeFullPanel(p) \
-    MakePanel(p); \
-    PanelFill(&p)
-
-void PanelInit(Panel* panel);
+void INIT_Panel(Panel* panel);
 
 void PanelAddChild(Panel* parent, Panel* child);
 
@@ -38,3 +39,7 @@ Rectangle PanelResize(Panel* panel, Vector2 start, Vector2 end);
 #define PanelFill(panel) PanelResize(panel, (Vector2){0,0}, (Vector2){100,100})
 
 static Rectangle PanelComputeContentRect(Panel* panel);
+
+void PanelUpdateTree(Panel* panel);
+void PanelDrawTree(Panel* panel);
+void PanelFreeTree(Panel* panel);
