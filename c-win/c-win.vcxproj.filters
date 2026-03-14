@@ -19,13 +19,19 @@
     <Filter Include="Header Files\kat">
       <UniqueIdentifier>{2c91cae5-c3e6-43ca-b329-d3828819300c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\gui">
-      <UniqueIdentifier>{1cb0909c-91aa-414e-a34d-c7087b8e2d10}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\ray">
       <UniqueIdentifier>{fab64708-c10d-4dfc-86be-407c39990cfb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\gui">
+    <Filter Include="Header Files\scene">
+      <UniqueIdentifier>{6d1e8daa-a872-4df8-bb7e-069aacc952dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scene\gui">
+      <UniqueIdentifier>{1cb0909c-91aa-414e-a34d-c7087b8e2d10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scene">
+      <UniqueIdentifier>{8b1234d3-863c-4782-8c48-a8f2321fe40c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scene\gui">
       <UniqueIdentifier>{1d846d64-5969-40d3-8e8e-3aa6133dd405}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -37,10 +43,13 @@
       <Filter>Source Files\kat</Filter>
     </ClCompile>
     <ClCompile Include="panel.c">
-      <Filter>Source Files\gui</Filter>
+      <Filter>Source Files\scene\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="element.c">
+      <Filter>Source Files\scene</Filter>
     </ClCompile>
     <ClCompile Include="header_panel.c">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\scene\gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -48,19 +57,22 @@
       <Filter>Header Files\kat</Filter>
     </ClInclude>
     <ClInclude Include="gui.h">
-      <Filter>Header Files\gui</Filter>
+      <Filter>Header Files\scene\gui</Filter>
     </ClInclude>
     <ClInclude Include="stdkat.h">
       <Filter>Header Files\ray</Filter>
     </ClInclude>
-    <ClInclude Include="raygui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="panel.h">
-      <Filter>Header Files\gui</Filter>
+      <Filter>Header Files\scene\gui</Filter>
     </ClInclude>
     <ClInclude Include="header_panel.h">
-      <Filter>Header Files\gui</Filter>
+      <Filter>Header Files\scene\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="raygui.h">
+      <Filter>Header Files\ray</Filter>
+    </ClInclude>
+    <ClInclude Include="element.h">
+      <Filter>Header Files\scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

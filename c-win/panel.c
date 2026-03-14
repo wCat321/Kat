@@ -1,33 +1,37 @@
 #include "panel.h"
 
-#include <stdlib.h>
-#include "raylib.h"
+Panel* PanelCreate(void)
+{
+    Panel* panel = malloc(sizeof(Panel));
+    if (!panel) return NULL;
 
-void INIT_Panel(Panel* panel)
+    PanelInit(panel);
+    return panel;
+}
+
+void PanelInit(Panel* panel)
 {
     if (!panel) return;
 
-    panel->parent = NULL;
+    ElementInit(ELEMENT_AS(Element, panel), ELEMENT_PANEL);
 
-    panel->rect = (Rectangle){ 0,0,0,0 };
-    panel->contentRect = (Rectangle){ 0,0,0,0 };
+    panel->rect = (Rectangle){ 0 };
+    panel->contentRect = (Rectangle){ 0 };
 
     panel->start = (Vector2){ 0,0 };
-    panel->end = (Vector2){ 0,0 };
+    panel->end = (Vector2){ 100,100 };
 
     panel->contentMargin = (Vector4){ 0,0,0,0 };
 
-    panel->children = NULL;
-    panel->childCount = 0;
-    panel->childCapacity = 0;
-
-    panel->draw = NULL;
-    panel->update = NULL;
-    panel->free = NULL;
     panel->data = NULL;
 }
 
-static Rectangle PanelComputeContentRect(Panel* panel)
+void PanelAddChild(Panel* parent, Panel* child)
+{
+    ElementAddChild(&parent->base, &child->base);
+}
+
+Rectangle PanelComputeContentRect(Panel* panel)
 {
     Rectangle r = panel->rect;
 
@@ -47,10 +51,17 @@ Rectangle PanelResize(Panel* panel, Vector2 start, Vector2 end)
 
     Rectangle parentRect;
 
-    if (panel->parent)
-        parentRect = panel->parent->contentRect;
+    Element* parentElement = panel->base.parent;
+
+    if (parentElement && parentElement->type == ELEMENT_PANEL)
+    {
+        Panel* parent = (Panel*)parentElement;
+        parentRect = parent->contentRect;
+    }
     else
-        parentRect = (Rectangle){ 0,0,GetScreenWidth(),GetScreenHeight() };
+    {
+        parentRect = (Rectangle){ 0, 0, GetScreenWidth(), GetScreenHeight() };
+    }
 
     panel->rect.x = parentRect.x + parentRect.width * (start.x / 100.0f);
     panel->rect.y = parentRect.y + parentRect.height * (start.y / 100.0f);
@@ -60,53 +71,22 @@ Rectangle PanelResize(Panel* panel, Vector2 start, Vector2 end)
 
     panel->contentRect = PanelComputeContentRect(panel);
 
-    for (int i = 0; i < panel->childCount; i++)
+    for (int i = 0; i < panel->base.childCount; i++)
     {
-        Panel* child = panel->children[i];
-        PanelResize(child, child->start, child->end);
+        Element* childElement = panel->base.children[i];
+
+        if (childElement->type == ELEMENT_PANEL)
+        {
+            Panel* child = (Panel*)childElement;
+            PanelResize(child, child->start, child->end);
+        }
     }
 
     return panel->rect;
 }
 
-void PanelAddChild(Panel* parent, Panel* child)
+void PanelFillParent(Panel* panel)
 {
-    if (!parent || !child) return; // defensive: ignore invalid input
-
-    if (parent->childCount >= parent->childCapacity)
-    {
-        int newCapacity = parent->childCapacity ? parent->childCapacity * 2 : 4;
-
-        Panel** tmp = realloc(parent->children, newCapacity * sizeof(Panel*));
-        if (!tmp)
-        {
-            // Allocation failed; leave parent unchanged
-            return;
-        }
-
-        parent->children = tmp;
-        parent->childCapacity = newCapacity;
-    }
-
-    parent->children[parent->childCount] = child;
-    child->parent = parent;
-    parent->childCount++;
+    PanelResize(panel, (Vector2) { 0, 0 }, (Vector2) { 100, 100 });
 }
 
-void PanelDrawTree(Panel* panel)
-{
-    if (panel->draw)
-        panel->draw(panel);
-
-    for (int i = 0; i < panel->childCount; i++)
-        PanelDrawTree(panel->children[i]);
-}
-
-void PanelUpdateTree(Panel* panel)
-{
-    if (panel->update)
-        panel->update(panel);
-
-    for (int i = 0; i < panel->childCount; i++)
-        PanelUpdateTree(panel->children[i]);
-}

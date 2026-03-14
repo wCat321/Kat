@@ -1,53 +1,57 @@
 #include "kat.h"
 
 #include "stdkat.h"
-int kat_init(int argc, char* argv)
+
+Element* E_root;
+Panel* P_win;
+
+void kat_init(int argc, char* argv)
 {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(1280, 720, "Kat | Game Engine");
     GuiLoadStyle("./kat_style.rgs");
     SetTargetFPS(60);
 
-    Panel p_root;
-    INIT_Panel(&p_root);
-    PanelFill(&p_root);
+    E_root = ElementCreate();
+    P_win = PanelCreate();
 
-    Panel p_main;
-    INIT_Panel(&p_main);
+    ElementAddChild(E_root, ELEMENT_AS(Element, P_win));
+    PanelFillParent(P_win);
 
-    Panel p_bottom;
-    INIT_Panel(&p_bottom);
-    MAKE_HeaderPanel(&p_bottom, "Bottom");
+    Panel* P_main = HeaderPanelCreate("Kat");
+    Panel* P_bottom = HeaderPanelCreate("Bottom");
 
-    Panel p_left;
-    INIT_Panel(&p_left);
-    MAKE_HeaderPanel(&p_left, "Left");
+    PanelAddChild(P_win, P_main);
+    PanelAddChild(P_win, P_bottom);
+    PanelResize(P_main, (Vector2) { 0, 0 }, (Vector2) { 100, 80 });
+    PanelResize(P_bottom, (Vector2) { 0, 80 }, (Vector2) { 100, 100 });
 
-    PanelAddChild(&p_root, &p_main);
-    PanelAddChild(&p_root, &p_bottom);
-    PanelResize(&p_main, (Vector2) { 0, 0 }, (Vector2){ 100, 80 });
-    PanelResize(&p_bottom, (Vector2) { 0, 80 }, (Vector2) { 100, 100 });
+    Panel* P_left = HeaderPanelCreate("Left");
+    Panel* P_right = HeaderPanelCreate("Right");
 
-    PanelAddChild(&p_main, &p_left);
-    PanelResize(&p_left, (Vector2) { 0, 0 }, (Vector2) { 15, 100 });
+    
+    PanelAddChild(P_main, P_left);
+    PanelAddChild(P_main, P_right);
+    PanelResize(P_left, (Vector2) { 0, 0 }, (Vector2) { 15, 100 });
+    PanelResize(P_right, (Vector2) { 85, 0 }, (Vector2) { 100, 100 });
+}
 
+int kat_launch()
+{
     while (!WindowShouldClose())
     {
         if (IsWindowResized())
-            PanelFill(&p_root);
+            PanelFillParent(P_win);
 
-        PanelUpdateTree(&p_root);
-
+        ElementUpdateTree(E_root);
         BeginDrawing();
         ClearBackground(GetColor(GuiGetStyle(DEFAULT, BACKGROUND_COLOR)));
-
-        PanelDrawTree(&p_root);
+        ElementDrawTree(E_root);
 
         EndDrawing();
     }
 
+    ElementFreeTree(E_root);
     CloseWindow();
-    return 0;
 
 }
-

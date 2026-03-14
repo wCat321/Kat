@@ -2,29 +2,37 @@
 
 #include <stdlib.h>
 
-void MAKE_HeaderPanel(Panel* panel, const char* text) 
+Panel* HeaderPanelCreate(const char* text) 
 {
+    Panel* panel = PanelCreate();
+    if (!panel)
+        return NULL;
     HeaderPanelData* data = (HeaderPanelData*)malloc(sizeof(HeaderPanelData));
+    if (!data)
+        return NULL;
+
+    panel->contentMargin = (Vector4){0, 23, 0, 0};
+    
     data->text = text;
 
     panel->data = data;
-    panel->draw = DRAW_HeaderPanel;
-    panel->update = UPDATE_HeaderPanel;
-    panel->free = FREE_HeaderPanel;
+    panel->base.draw = HeaderPanelDraw;
+    panel->base.update = HeaderPanelUpdate;
+    panel->base.free = HeaderPanelFree;
 }
 
-void DRAW_HeaderPanel(Panel* panel)
+void HeaderPanelDraw(Panel* panel)
 {
     HeaderPanelData* data = panel->data;
     GuiPanel(panel->rect, data ? data->text : NULL);
 }
 
-void UPDATE_HeaderPanel(Panel* panel)
+void HeaderPanelUpdate(Panel* panel)
 {
 
 }
 
-void FREE_HeaderPanel(Panel* panel)
+void HeaderPanelFree(Panel* panel)
 {
     if (!panel) return;
 

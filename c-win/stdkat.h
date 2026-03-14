@@ -1,5 +1,4 @@
 #pragma once
-#define STDKAT_H
 
 #include <stdlib.h>
 

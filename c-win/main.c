@@ -5,5 +5,6 @@
 #include "kat.h"
 int main(int argc, char* argv)
 {
-	return kat_init(argc, argv);
+	kat_init(argc, argv);
+	return kat_launch();
 }

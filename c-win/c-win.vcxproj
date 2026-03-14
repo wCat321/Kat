@@ -133,12 +133,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="element.c" />
     <ClCompile Include="header_panel.c" />
     <ClCompile Include="kat.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="panel.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="element.h" />
     <ClInclude Include="gui.h" />
     <ClInclude Include="header_panel.h" />
     <ClInclude Include="kat.h" />
