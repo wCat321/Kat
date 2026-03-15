@@ -1,15 +1,16 @@
 #include "element.h"
 
-Element* ElementCreate(void)
+Element* Element_Create(const char* name)
 {
     Element* element = malloc(sizeof(Element));
     if (!element) return NULL;
 
-    ElementInit(element, ELEMENT_BASE);
+    Element_Init(element, ELEMENT_BASE);
+    element->name = name;
     return element;
 }
 
-void ElementInit(Element* element, ElementType type)
+void Element_Init(Element* element, ElementType type)
 {
     if (!element) return;
 
@@ -23,16 +24,16 @@ void ElementInit(Element* element, ElementType type)
 
     element->draw = NULL;
     element->update = NULL;
-    element->free = ElementFree;
+    element->free = Element_Free;
 }
 
-void ElementFree(Element* element) 
+void Element_Free(Element* element) 
 {
     free(element);
     element = NULL;
 }
 
-void ElementAddChild(Element* parent, Element* child)
+void Element_AddChild(Element* parent, Element* child)
 {
     if (!parent || !child) return;
 
@@ -52,7 +53,7 @@ void ElementAddChild(Element* parent, Element* child)
 }
 
 
-void ElementRemoveChild(Element* parent, Element* child)
+void Element_RemoveChild(Element* parent, Element* child)
 {
     if (!parent || !child) return;
 
@@ -73,7 +74,7 @@ void ElementRemoveChild(Element* parent, Element* child)
 }
 
 
-void ElementUpdateTree(Element* element)
+void Element_UpdateTree(Element* element)
 {
     if (element->update)
         element->update(element);
@@ -81,11 +82,11 @@ void ElementUpdateTree(Element* element)
     for (int i = 0; i < element->childCount; i++)
     {
         Element* child = ELEMENT_AS(Element, element->children[i]);
-        ElementUpdateTree(child);
+        Element_UpdateTree(child);
     }
 }
 
-void ElementDrawTree(Element* element)
+void Element_DrawTree(Element* element)
 {
     if (element->draw)
         element->draw(element);
@@ -93,16 +94,16 @@ void ElementDrawTree(Element* element)
     for (int i = 0; i < element->childCount; i++)
     {
         Element* child = ELEMENT_AS(Element, element->children[i]);
-        ElementDrawTree(child);
+        Element_DrawTree(child);
     }
 }
 
-void ElementFreeTree(Element* element)
+void Element_FreeTree(Element* element)
 {
     for (int i = 0; i < element->childCount; i++)
     {
         Element* child = ELEMENT_AS(Element, element->children[i]);
-        ElementFreeTree(child);
+        Element_FreeTree(child);
     }
 
     if (element->free)
@@ -110,14 +111,15 @@ void ElementFreeTree(Element* element)
 
 }
 
-void ElementTraverse(Element* element, ElementVisitor visitor)
+void Element_Traverse(Element* element, ElementVisitor visitor, int depth)
 {
     if (!element || !visitor) return;
 
-    visitor(element);
+    visitor(element, depth);
 
+    depth++;
     for (int i = 0; i < element->childCount; i++)
     {
-        ElementTraverse(element->children[i], visitor);
+        Element_Traverse(element->children[i], visitor, depth);
     }
 }

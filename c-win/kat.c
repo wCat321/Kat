@@ -1,57 +1,55 @@
 #include "kat.h"
+#include "kat_engine.h"
 
-#include "stdkat.h"
+void kat_start(void);
+void print_name(Element* element, int depth);
 
 Element* E_root;
-Panel* P_win;
 
-void kat_init(int argc, char* argv)
+
+void kat_init()
 {
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    InitWindow(1280, 720, "Kat | Game Engine");
+    Engine_Init(1280, 720, "Kat Engine | Make Games");
+
+    EngineData* data = EngineData_Create();
+    data->start = kat_start;
+
     GuiLoadStyle("./kat_style.rgs");
-    SetTargetFPS(60);
+    E_root = Element_Create("ROOT");
+    Engine_SetRoot(E_root);
 
-    E_root = ElementCreate();
-    P_win = PanelCreate();
+    Element* E_second = Element_Create("SECOND");
+    Element* E_third = Element_Create("THIRD");
+    Element* E_fourth = Element_Create("FOURTH");
+    Element* E_fifth = Element_Create("FIFTH");
 
-    ElementAddChild(E_root, ELEMENT_AS(Element, P_win));
-    PanelFillParent(P_win);
+    Element_AddChild(E_root, E_second);
+    Element_AddChild(E_root, E_third);
+    Element_AddChild(E_second, E_fourth);
+    Element_AddChild(E_second, E_fifth);
 
-    Panel* P_main = HeaderPanelCreate("Kat");
-    Panel* P_bottom = HeaderPanelCreate("Bottom");
-
-    PanelAddChild(P_win, P_main);
-    PanelAddChild(P_win, P_bottom);
-    PanelResize(P_main, (Vector2) { 0, 0 }, (Vector2) { 100, 80 });
-    PanelResize(P_bottom, (Vector2) { 0, 80 }, (Vector2) { 100, 100 });
-
-    Panel* P_left = HeaderPanelCreate("Left");
-    Panel* P_right = HeaderPanelCreate("Right");
-
-    
-    PanelAddChild(P_main, P_left);
-    PanelAddChild(P_main, P_right);
-    PanelResize(P_left, (Vector2) { 0, 0 }, (Vector2) { 15, 100 });
-    PanelResize(P_right, (Vector2) { 85, 0 }, (Vector2) { 100, 100 });
+    Engine_SetRoot(E_root);
+    Engine_SetData(data);
 }
+
 
 int kat_launch()
 {
-    while (!WindowShouldClose())
+    return Engine_Start();
+}
+
+void kat_start(void)
+{
+    Element_Traverse(E_root, print_name, 0);
+}
+
+void print_name(Element* element, int depth)
+{
+    if (depth)
     {
-        if (IsWindowResized())
-            PanelFillParent(P_win);
-
-        ElementUpdateTree(E_root);
-        BeginDrawing();
-        ClearBackground(GetColor(GuiGetStyle(DEFAULT, BACKGROUND_COLOR)));
-        ElementDrawTree(E_root);
-
-        EndDrawing();
+        for (int i = 0; i < depth; i++)
+            printf("  ");
+        printf("\\-- ");
     }
-
-    ElementFreeTree(E_root);
-    CloseWindow();
-
+    printf("Element Name: \"%s\" | Depth: %d\n", element->name, depth);
 }

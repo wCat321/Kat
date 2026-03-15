@@ -21,6 +21,7 @@ typedef void (*ElementFreeFn)(Element* element);
 struct Element
 {
     ElementType type;
+    char* name;
 
     Element* parent;
 
@@ -34,18 +35,18 @@ struct Element
 
 };
 
-Element* ElementCreate(void);
-void ElementInit(Element* element, ElementType type);
-void ElementFree(Element* element);
+Element* Element_Create(const char* name);
+void Element_Init(Element* element, ElementType type);
+void Element_Free(Element* element);
 
-void ElementAddChild(Element* parent, Element* child);
-void ElementRemoveChild(Element* parent, Element* child);
+void Element_AddChild(Element* parent, Element* child);
+void Element_RemoveChild(Element* parent, Element* child);
 
-void ElementUpdateTree(Element* element);
-void ElementDrawTree(Element* element);
-void ElementFreeTree(Element* element);
+void Element_UpdateTree(Element* element);
+void Element_DrawTree(Element* element);
+void Element_FreeTree(Element* element);
 
-typedef void (*ElementVisitor)(Element* element);
-void ElementTraverse(Element* element, ElementVisitor visitor);
+typedef void (*ElementVisitor)(Element* element, int depth);
+void Element_Traverse(Element* element, ElementVisitor visitor, size_t depth);
 
 #define ELEMENT_AS(type, elementPtr) ((type*)(elementPtr))

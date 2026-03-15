@@ -1,10 +1,7 @@
 
-#include "raylib.h"
-#include "raygui.h"
-
 #include "kat.h"
 int main(int argc, char* argv)
 {
-	kat_init(argc, argv);
+	kat_init();
 	return kat_launch();
 }

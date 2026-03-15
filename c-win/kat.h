@@ -1,4 +1,4 @@
 #pragma once
 
-void kat_init(int argc, char* argv);
+void kat_init();
 int kat_launch();
