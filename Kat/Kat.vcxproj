@@ -178,9 +178,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="frametime.c">
+      <FileType>CppCode</FileType>
+    </ClCompile>
     <None Include="kat_style.rgs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="frametime.h" />
     <ClInclude Include="kat.h" />
   </ItemGroup>
   <ItemGroup>

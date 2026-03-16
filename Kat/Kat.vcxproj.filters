@@ -19,6 +19,12 @@
     <Filter Include="Header Files\kat">
       <UniqueIdentifier>{768c52e8-cbed-46fa-a9cf-bd648aefbc2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\components">
+      <UniqueIdentifier>{def8cfef-f288-4de9-9892-68576b7415da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\components">
+      <UniqueIdentifier>{5138b3df-0d46-4446-9f70-66f0a1ab9f22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="kat_style.rgs">
@@ -29,6 +35,9 @@
     <ClInclude Include="kat.h">
       <Filter>Header Files\kat</Filter>
     </ClInclude>
+    <ClInclude Include="frametime.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="kat.c">
@@ -36,6 +45,9 @@
     </ClCompile>
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="frametime.c">
+      <Filter>Source Files\components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

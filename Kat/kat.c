@@ -2,6 +2,8 @@
 #include "kat_engine.h"
 #include <stdio.h>
 
+#include "frametime.h"
+
 void kat_start(void);
 void print_name(Element* element, int depth);
 
@@ -31,8 +33,10 @@ void kat_init()
     Element_AddChild(E_second, E_fourth);
     Element_AddChild(E_second, E_fifth);
 
-    Engine_SetRoot(E_root);
     Engine_SetData(data);
+
+    Component* frame_time = Component_FrameTime_Create();
+    Element_AddComponent(E_root, frame_time);
 }
 
 

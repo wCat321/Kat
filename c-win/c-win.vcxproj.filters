@@ -34,6 +34,12 @@
     <Filter Include="Source Files\engine\scene\gui">
       <UniqueIdentifier>{1d846d64-5969-40d3-8e8e-3aa6133dd405}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\engine\component">
+      <UniqueIdentifier>{7c033b11-9698-429f-a014-d7974bba4561}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\component">
+      <UniqueIdentifier>{a8ee8180-72d9-4b76-9c16-f8e0a9271ac9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="element.c">
@@ -41,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="kat_engine.c">
       <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="component.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,10 +68,18 @@
     <ClInclude Include="kat_engine.h">
       <Filter>Header Files\engine</Filter>
     </ClInclude>
+    <ClInclude Include="component.h">
+      <Filter>Header Files\engine\component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="raylib.lib">
       <Filter>Resource Files</Filter>
     </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="THIRD_PARTY_LICENSE.txt">
+      <Filter>Header Files\engine\ray</Filter>
+    </Text>
   </ItemGroup>
 </Project>

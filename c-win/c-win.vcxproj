@@ -183,6 +183,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="component.c" />
     <ClCompile Include="element.c" />
     <ClCompile Include="kat_engine.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Kat|x64'">true</ExcludedFromBuild>
@@ -194,9 +195,13 @@
     <ClInclude Include="kat_engine.h" />
     <ClInclude Include="raygui.h" />
     <ClInclude Include="raylib.h" />
+    <ClInclude Include="component.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="raylib.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="THIRD_PARTY_LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

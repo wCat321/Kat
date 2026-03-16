@@ -3,6 +3,8 @@
 #include "raylib.h"
 #include "raygui.h"
 
+#include "component.h"
+
 #include "element.h"
 
 #include "gui.h"

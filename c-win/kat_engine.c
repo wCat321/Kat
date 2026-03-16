@@ -4,10 +4,9 @@
 #include "kat_engine.h"
 #include <stdlib.h>
 
-
-
 Element* root;
 EngineData* data;
+
 void Engine_Init(int w, int h, const char* title)
 {
     root = NULL;
@@ -26,10 +25,11 @@ int Engine_Start()
 
     while (!WindowShouldClose())
     {
+        float dt = GetFrameTime();
         if (data && data->frame)
             data->frame();
 
-        Element_UpdateTree(root);
+        Element_UpdateTree(root, dt);
         BeginDrawing();
         ClearBackground(GetColor(GuiGetStyle(DEFAULT, BACKGROUND_COLOR)));
         Element_DrawTree(root);
@@ -44,6 +44,7 @@ int Engine_Start()
 
     return 0;
 }
+
 void Engine_SetRoot(Element* element)
 {
     root = element;
@@ -56,7 +57,8 @@ void Engine_SetData(EngineData* new_data)
 
 EngineData* EngineData_Create(void)
 {
-    EngineData* data = (EngineData*)malloc(sizeof(data));
+    EngineData* data = (EngineData*)malloc(sizeof(EngineData));
+    if (!data) return NULL;
     EngineData_Init(data);
     return data;
 }
