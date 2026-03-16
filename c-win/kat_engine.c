@@ -2,6 +2,9 @@
 #include "raygui.h"
 
 #include "kat_engine.h"
+#include <stdlib.h>
+
+
 
 Element* root;
 EngineData* data;
@@ -53,7 +56,7 @@ void Engine_SetData(EngineData* new_data)
 
 EngineData* EngineData_Create(void)
 {
-    EngineData* data = malloc(sizeof(data));
+    EngineData* data = (EngineData*)malloc(sizeof(data));
     EngineData_Init(data);
     return data;
 }

@@ -1,7 +1,16 @@
 <Solution>
   <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Engine" />
+    <BuildType Name="Kat" />
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="c-win/c-win.vcxproj" Id="42257604-c0b7-40a3-a06c-0730e5379e63" />
+  <Project Path="c-win/c-win.vcxproj" Id="42257604-c0b7-40a3-a06c-0730e5379e63">
+    <Build Solution="Kat|x64" Project="false" />
+  </Project>
+  <Project Path="Kat/Kat.vcxproj" Id="eca8e0e5-146c-4268-8e1d-eec1226e790c">
+    <BuildDependency Project="c-win/c-win.vcxproj" />
+    <Build Solution="Engine|x64" Project="false" />
+  </Project>
 </Solution>

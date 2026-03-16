@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\kat">
-      <UniqueIdentifier>{ed82e4a9-b02f-44f5-b638-20e0aab5836c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\kat">
-      <UniqueIdentifier>{2c91cae5-c3e6-43ca-b329-d3828819300c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\engine">
       <UniqueIdentifier>{5be8aecb-2359-4d03-b8c1-8c4708ceb435}</UniqueIdentifier>
     </Filter>
@@ -42,12 +36,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="kat.c">
-      <Filter>Source Files\kat</Filter>
-    </ClCompile>
     <ClCompile Include="element.c">
       <Filter>Source Files\engine\scene</Filter>
     </ClCompile>
@@ -56,9 +44,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="kat.h">
-      <Filter>Header Files\kat</Filter>
-    </ClInclude>
     <ClInclude Include="raygui.h">
       <Filter>Header Files\engine\ray</Filter>
     </ClInclude>
@@ -68,13 +53,16 @@
     <ClInclude Include="gui.h">
       <Filter>Header Files\engine\scene\gui</Filter>
     </ClInclude>
+    <ClInclude Include="raylib.h">
+      <Filter>Header Files\engine\ray</Filter>
+    </ClInclude>
     <ClInclude Include="kat_engine.h">
       <Filter>Header Files\engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="kat_style.rgs">
+    <Library Include="raylib.lib">
       <Filter>Resource Files</Filter>
-    </None>
+    </Library>
   </ItemGroup>
 </Project>
