@@ -40,6 +40,9 @@
     <Filter Include="Source Files\engine\component">
       <UniqueIdentifier>{a8ee8180-72d9-4b76-9c16-f8e0a9271ac9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\tools">
+      <UniqueIdentifier>{5d01e081-b23d-4a10-92ca-e6f50e70c9e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="element.c">
@@ -49,7 +52,7 @@
       <Filter>Source Files\engine</Filter>
     </ClCompile>
     <ClCompile Include="component.c">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\engine\component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

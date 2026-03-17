@@ -4,6 +4,7 @@ typedef struct Element Element;
 typedef struct Component Component;
 
 typedef void (*ElementInitFn)(Element* element);
+typedef void (*ElementReadyFn)(Element* element);
 typedef void (*ElementDrawFn)(Element* element);
 typedef void (*ElementUpdateFn)(Element* element, float dt);
 typedef void (*ElementFreeFn)(Element* element);
@@ -15,14 +16,14 @@ struct Element
 
     Element* parent;
 
-    Element** children;
-    int childCount;
-    int childCapacity;
-
-    ElementInitFn init;
+    ElementReadyFn ready;
     ElementDrawFn draw;
     ElementUpdateFn update;
     ElementFreeFn free;
+
+    Element** children;
+    int childCount;
+    int childCapacity;
 
     Component** components;
     int componentCount;
@@ -30,20 +31,17 @@ struct Element
 
 };
 
-Element* Element_Create(const char* name);
-void Element_Init(Element* element);
+Element* Element_New(const char* name);
+void Element_Setup(Element* element);
 void Element_Free(Element* element);
 
-void Element_AddChild(Element* parent, Element* child);
-void Element_RemoveChild(Element* parent, Element* child);
-
-void Element_InitTree(Element* element);
+void Element_ReadyTree(Element* element);
 void Element_UpdateTree(Element* element, float dt);
 void Element_DrawTree(Element* element);
 void Element_FreeTree(Element* element);
 
-typedef void (*ElementVisitor)(Element* element, int depth);
-void Element_Traverse(Element* element, ElementVisitor visitor, int depth);
+void Element_AddChild(Element* parent, Element* child);
+void Element_RemoveChild(Element* parent, Element* child);
 
 void Element_AddComponent(Element* element, Component* component);
 void Element_RemoveComponent(Element* element, Component* component);

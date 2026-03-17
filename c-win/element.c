@@ -4,12 +4,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-Element* Element_Create(const char* name)
+Element* Element_New(const char* name)
 {
     Element* element = malloc(sizeof(Element));
     if (!element) return NULL;
 
-    Element_Init(element);
+    Element_Setup(element);
     if (name)
     {
         size_t len = strlen(name) + 1;
@@ -27,7 +27,7 @@ Element* Element_Create(const char* name)
     return element;
 }
 
-void Element_Init(Element* element)
+void Element_Setup(Element* element)
 {
     if (!element) return;
 
@@ -37,7 +37,7 @@ void Element_Init(Element* element)
     element->childCount = 0;
     element->childCapacity = 0;
 
-    element->init = NULL;
+    element->ready = NULL;
     element->draw = NULL;
     element->update = NULL;
     element->free = Element_Free;
@@ -58,64 +58,23 @@ void Element_Free(Element* element)
     free(element);
 }
 
-void Element_AddChild(Element* parent, Element* child)
+
+void Element_ReadyTree(Element* element)
 {
-    if (!parent || !child) return;
-
-    if (parent->childCount >= parent->childCapacity)
-    {
-        int newCapacity = parent->childCapacity ? parent->childCapacity * 2 : 4;
-
-        Element** tmp = realloc(parent->children, newCapacity * sizeof(Element*));
-        if (!tmp) return;
-
-        parent->children = tmp;
-        parent->childCapacity = newCapacity;
-    }
-
-    parent->children[parent->childCount++] = child;
-    if (child->parent)
-        Element_RemoveChild(child->parent, child);
-    child->parent = parent;
-}
-
-
-void Element_RemoveChild(Element* parent, Element* child)
-{
-    if (!parent || !child) return;
-
-    for (int i = 0; i < parent->childCount; i++)
-    {
-        if (parent->children[i] == child)
-        {
-            for (int j = i; j < parent->childCount - 1; j++)
-            {
-                parent->children[j] = parent->children[j + 1];
-            }
-
-            parent->childCount--;
-            child->parent = NULL;
-            return;
-        }
-    }
-}
-
-void Element_InitTree(Element* element)
-{
-    if (element->init)
-        element->init(element);
+    if (element->ready)
+        element->ready(element);
 
     for (int i = 0; i < element->componentCount; i++)
     {
         Component* component = element->components[i];
-        if (component->init)
-			component->init(component);
+        if (component->ready)
+			component->ready(component);
     }
 
     for (int i = 0; i < element->childCount; i++)
     {
         Element* child = ELEMENT_CAST(Element, element->children[i]);
-        Element_InitTree(child);
+        Element_ReadyTree(child);
     }
 }
 
@@ -178,18 +137,51 @@ void Element_FreeTree(Element* element)
         element->free(element);
 }
 
-void Element_Traverse(Element* element, ElementVisitor visitor, int depth)
+
+void Element_AddChild(Element* parent, Element* child)
 {
-    if (!element || !visitor) return;
+    if (!parent || !child) return;
 
-    visitor(element, depth);
+    if (child->parent == parent) return; // already a child of this parent
 
-    depth++;
-    for (int i = 0; i < element->childCount; i++)
+    if (parent->childCount >= parent->childCapacity)
     {
-        Element_Traverse(element->children[i], visitor, depth);
+        int newCapacity = parent->childCapacity ? parent->childCapacity * 2 : 4;
+
+        Element** tmp = realloc(parent->children, newCapacity * sizeof(Element*));
+        if (!tmp) return;
+
+        parent->children = tmp;
+        parent->childCapacity = newCapacity;
+    }
+
+    if (child->parent)
+        Element_RemoveChild(child->parent, child);
+
+    parent->children[parent->childCount++] = child;
+    child->parent = parent;
+}
+
+void Element_RemoveChild(Element* parent, Element* child)
+{
+    if (!parent || !child) return;
+
+    for (int i = 0; i < parent->childCount; i++)
+    {
+        if (parent->children[i] == child)
+        {
+            for (int j = i; j < parent->childCount - 1; j++)
+            {
+                parent->children[j] = parent->children[j + 1];
+            }
+
+            parent->childCount--;
+            child->parent = NULL;
+            return;
+        }
     }
 }
+
 
 void Element_AddComponent(Element* element, Component* component)
 {
@@ -208,6 +200,7 @@ void Element_AddComponent(Element* element, Component* component)
 
     element->components[element->componentCount++] = component;
     component->owner = element;
+
 }
 
 void Element_RemoveComponent(Element* element, Component* component)

@@ -2,9 +2,9 @@
 
 #include <stdio.h>
 
-Component* Component_FrameTime_Create()
+Component* Component_FrameTime_New()
 {
-	Component* component = Component_Create();
+	Component* component = Component_New();
 	component->update = Component_FrameTime_Update;
 	return component;
 }

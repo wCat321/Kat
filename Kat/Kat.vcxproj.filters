@@ -38,6 +38,9 @@
     <ClInclude Include="frametime.h">
       <Filter>Header Files\components</Filter>
     </ClInclude>
+    <ClInclude Include="traverse.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="kat.c">
@@ -47,6 +50,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="frametime.c">
+      <Filter>Source Files\components</Filter>
+    </ClCompile>
+    <ClCompile Include="traverse.c">
       <Filter>Source Files\components</Filter>
     </ClCompile>
   </ItemGroup>

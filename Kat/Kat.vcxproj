@@ -181,11 +181,13 @@
     <ClCompile Include="frametime.c">
       <FileType>CppCode</FileType>
     </ClCompile>
+    <ClCompile Include="traverse.c" />
     <None Include="kat_style.rgs" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="frametime.h" />
     <ClInclude Include="kat.h" />
+    <ClInclude Include="traverse.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="kat.c" />
