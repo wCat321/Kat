@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Component.h"
+#include "script.h"
 
-Component* Component_FrameTime_New();
-void Component_FrameTime_Update(Component* component, float dt);
+Script* Script_FrameTime_New();
+void Script_FrameTime_Update(Script* script, float dt);

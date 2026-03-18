@@ -3,39 +3,24 @@
 #include "element.h"
 #include <stdlib.h>
 
-typedef struct
-{
-	int depth;
-} TraverseData;
 
 void traverse_tree(Element* element, int depth);
 void print_name(Element* element, int depth);
 
-Component* Component_Traverse_New()
+Script* Script_Traverse_New()
 {
-	Component* component = Component_New();
-	if (!component) return NULL;
+	Script* script = Script_New();
+	if (!script) return NULL;
 
-	TraverseData* data = malloc(sizeof(TraverseData));
-	if (!data)
-	{
-		Component_Free(component);
-		return NULL;
-	}
-
-	data->depth = 0;
-	
-	component->ready = Component_Traverse_Ready;
-	component->data = (void*)(data);
-	return component;
+	script->ready = Script_Traverse_Ready;
+	return script;
 }
 
-void Component_Traverse_Ready(Component* component)
+void Script_Traverse_Ready(Script* script)
 {
-	if (!component || !component->data || !component->owner) return;
-	TraverseData* data = (TraverseData*)component->data;
+	if (!script || !script->owner) return;
 
-	traverse_tree(component->owner, data->depth);
+	traverse_tree(script->owner, 0);
 }
 
 void traverse_tree(Element* element, int depth)
@@ -59,5 +44,5 @@ void print_name(Element* element, int depth)
 			printf("  ");
 		printf("\\-- ");
 	}
-	printf("Element Name: \"%s\" | Depth: %d\n", element->name, depth);
+	printf("Element: %p | Depth: %d\n", &element, depth);
 }

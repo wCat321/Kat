@@ -1,6 +1,6 @@
 #pragma once
 
-#include "component.h"
+#include "script.h"
 
-Component* Component_Traverse_New();
-void Component_Traverse_Ready(Component* component);
+Script* Script_Traverse_New();
+void Script_Traverse_Ready(Script* script);

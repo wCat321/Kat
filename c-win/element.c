@@ -1,28 +1,17 @@
 #include "element.h"
 
-#include "component.h"
 #include <stdlib.h>
 #include <string.h>
 
-Element* Element_New(const char* name)
+#include "script.h"
+#include "component.h"
+
+Element* Element_New()
 {
     Element* element = malloc(sizeof(Element));
     if (!element) return NULL;
 
     Element_Setup(element);
-    if (name)
-    {
-        size_t len = strlen(name) + 1;
-        element->name = malloc(len);
-        if (element->name)
-            memcpy(element->name, name, len);
-        else
-            element->name = NULL;
-    }
-    else
-    {
-        element->name = NULL;
-    }
 
     return element;
 }
@@ -42,6 +31,10 @@ void Element_Setup(Element* element)
     element->update = NULL;
     element->free = Element_Free;
 
+    element->scripts = NULL;
+    element->scriptCount = 0;
+    element->scriptCapacity = 0;
+
     element->components = NULL;
     element->componentCount = 0;
     element->componentCapacity = 0;
@@ -51,8 +44,8 @@ void Element_Free(Element* element)
 {
     if (!element) return;
 
-    free(element->name);
     free(element->children);
+    free(element->scripts);
     free(element->components);
 
     free(element);
@@ -64,16 +57,16 @@ void Element_ReadyTree(Element* element)
     if (element->ready)
         element->ready(element);
 
-    for (int i = 0; i < element->componentCount; i++)
+    for (int i = 0; i < element->scriptCount; i++)
     {
-        Component* component = element->components[i];
-        if (component->ready)
-			component->ready(component);
+        Script* script = element->scripts[i];
+        if (script->ready)
+			script->ready(script);
     }
 
     for (int i = 0; i < element->childCount; i++)
     {
-        Element* child = ELEMENT_CAST(Element, element->children[i]);
+        Element* child = Element_Cast(Element, element->children[i]);
         Element_ReadyTree(child);
     }
 }
@@ -83,16 +76,16 @@ void Element_UpdateTree(Element* element, float dt)
     if (element->update)
         element->update(element, dt);
 
-    for (int i = 0; i < element->componentCount; i++)
+    for (int i = 0; i < element->scriptCount; i++)
     {
-        Component* component = element->components[i];
-		if (component->update)
-			component->update(component, dt);
+        Script* script = element->scripts[i];
+		if (script->update)
+			script->update(script, dt);
     }
 
     for (int i = 0; i < element->childCount; i++)
     {
-        Element* child = ELEMENT_CAST(Element, element->children[i]);
+        Element* child = Element_Cast(Element, element->children[i]);
         Element_UpdateTree(child, dt);
     }
 }
@@ -104,7 +97,7 @@ void Element_DrawTree(Element* element)
 
     for (int i = 0; i < element->childCount; i++)
     {
-        Element* child = ELEMENT_CAST(Element, element->children[i]);
+        Element* child = Element_Cast(Element, element->children[i]);
         Element_DrawTree(child);
     }
 }
@@ -114,12 +107,23 @@ void Element_FreeTree(Element* element)
     if (!element)
         return;
 
+    for (int i = 0; i < element->scriptCount; i++)
+    {
+        Script* script = element->scripts[i];
+        if (script->free)
+			script->free(script);
+		element->scripts[i] = NULL;
+    }
+
+    element->scriptCount = 0;
+
+    /* free components attached to this element */
     for (int i = 0; i < element->componentCount; i++)
     {
         Component* component = element->components[i];
-        if (component->free)
-			component->free(component);
-		element->components[i] = NULL;
+        if (component && component->free)
+            component->free(component);
+        element->components[i] = NULL;
     }
 
     element->componentCount = 0;
@@ -138,18 +142,18 @@ void Element_FreeTree(Element* element)
 }
 
 
-void Element_AddChild(Element* parent, Element* child)
+Element* Element_AddChild(Element* parent, Element* child)
 {
-    if (!parent || !child) return;
+    if (!parent || !child) return NULL;
 
-    if (child->parent == parent) return; // already a child of this parent
+    if (child->parent == parent) return child; // already a child of this parent
 
     if (parent->childCount >= parent->childCapacity)
     {
         int newCapacity = parent->childCapacity ? parent->childCapacity * 2 : 4;
 
         Element** tmp = realloc(parent->children, newCapacity * sizeof(Element*));
-        if (!tmp) return;
+        if (!tmp) return NULL;
 
         parent->children = tmp;
         parent->childCapacity = newCapacity;
@@ -160,6 +164,8 @@ void Element_AddChild(Element* parent, Element* child)
 
     parent->children[parent->childCount++] = child;
     child->parent = parent;
+
+    return child;
 }
 
 void Element_RemoveChild(Element* parent, Element* child)
@@ -183,42 +189,91 @@ void Element_RemoveChild(Element* parent, Element* child)
 }
 
 
-void Element_AddComponent(Element* element, Component* component)
+Script* Element_AddScript(Element* element, Script* script)
 {
-    if (!element || !component) return;
+    if (!element || !script) return NULL;
+
+    if (element->scriptCount >= element->scriptCapacity)
+    {
+        int newCapacity = element->scriptCapacity ? element->scriptCapacity * 2 : 4;
+
+        Script** tmp = realloc(element->scripts, newCapacity * sizeof(Script*));
+        if (!tmp) return NULL;
+
+        element->scripts = tmp;
+        element->scriptCapacity = newCapacity;
+    }
+
+    element->scripts[element->scriptCount++] = script;
+    script->owner = element;
+
+    return script;
+}
+
+void Element_RemoveScript(Element* element, Script* script)
+{
+    if (!element || !script) return;
+
+    for (int i = 0; i < element->scriptCount; i++)
+    {
+        if (element->scripts[i] == script)
+        {
+            for (int j = i; j < element->scriptCount - 1; j++)
+            {
+                element->scripts[j] = element->scripts[j + 1];
+            }
+
+            element->scriptCount--;
+            script->owner = NULL;
+            return;
+        }
+    }
+}
+
+Component* Element_AddComponent(Element* element, Component* component)
+{
+    if (!element || !component) return NULL;
 
     if (element->componentCount >= element->componentCapacity)
     {
         int newCapacity = element->componentCapacity ? element->componentCapacity * 2 : 4;
 
         Component** tmp = realloc(element->components, newCapacity * sizeof(Component*));
-        if (!tmp) return;
+        if (!tmp) return NULL;
 
         element->components = tmp;
         element->componentCapacity = newCapacity;
     }
 
     element->components[element->componentCount++] = component;
-    component->owner = element;
 
+    return component;
 }
 
-void Element_RemoveComponent(Element* element, Component* component)
+void Element_RemoveComponent(Element* element, ComponentType* type)
 {
-    if (!element || !component) return;
-
     for (int i = 0; i < element->componentCount; i++)
     {
-        if (element->components[i] == component)
+        if (element->components[i]->type == type)
         {
-            for (int j = i; j < element->componentCount - 1; j++)
-            {
-                element->components[j] = element->components[j + 1];
-            }
-
+            Component* delete = element->components[i];
+            element->components[i] = element->components[element->componentCount - 1];
             element->componentCount--;
-            component->owner = NULL;
+            free(delete);
             return;
         }
     }
+}
+
+Component* Element_GetComponent(Element* element, ComponentType* type)
+{
+    if (!element || !type) return NULL;
+
+    for (int i = 0; i < element->componentCount; i++)
+    {
+        Component* c = element->components[i];
+        if (c && c->type == type) return c;
+    }
+
+    return NULL;
 }

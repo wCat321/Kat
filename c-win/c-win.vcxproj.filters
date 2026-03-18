@@ -43,6 +43,18 @@
     <Filter Include="Header Files\tools">
       <UniqueIdentifier>{5d01e081-b23d-4a10-92ca-e6f50e70c9e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\engine\scene\2d">
+      <UniqueIdentifier>{92d1cac3-fdf5-45f3-bbc8-5f9a6f331336}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\scene\2d">
+      <UniqueIdentifier>{47311101-a716-4e94-9a20-c264c3e70dcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine\script">
+      <UniqueIdentifier>{ba734ea6-0e2a-4f18-a153-7cdbcb3c074f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\script">
+      <UniqueIdentifier>{34e50614-f396-4da8-9e1f-77583cecd11f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="element.c">
@@ -50,6 +62,15 @@
     </ClCompile>
     <ClCompile Include="kat_engine.c">
       <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="point2d.c">
+      <Filter>Source Files\engine\scene\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="script.c">
+      <Filter>Source Files\engine\script</Filter>
+    </ClCompile>
+    <ClCompile Include="transform2d.c">
+      <Filter>Source Files\engine\component</Filter>
     </ClCompile>
     <ClCompile Include="component.c">
       <Filter>Source Files\engine\component</Filter>
@@ -71,7 +92,19 @@
     <ClInclude Include="kat_engine.h">
       <Filter>Header Files\engine</Filter>
     </ClInclude>
+    <ClInclude Include="2d.h">
+      <Filter>Header Files\engine\scene\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="point2d.h">
+      <Filter>Header Files\engine\scene\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="script.h">
+      <Filter>Header Files\engine\script</Filter>
+    </ClInclude>
     <ClInclude Include="component.h">
+      <Filter>Header Files\engine\component</Filter>
+    </ClInclude>
+    <ClInclude Include="transform2d.h">
       <Filter>Header Files\engine\component</Filter>
     </ClInclude>
   </ItemGroup>

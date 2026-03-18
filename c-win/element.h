@@ -1,7 +1,9 @@
 #pragma once
 
 typedef struct Element Element;
+typedef struct Script Script;
 typedef struct Component Component;
+typedef const char* ComponentType;
 
 typedef void (*ElementInitFn)(Element* element);
 typedef void (*ElementReadyFn)(Element* element);
@@ -12,8 +14,6 @@ typedef void (*ElementFreeFn)(Element* element);
 
 struct Element
 {
-    char* name;
-
     Element* parent;
 
     ElementReadyFn ready;
@@ -25,13 +25,17 @@ struct Element
     int childCount;
     int childCapacity;
 
+    Script** scripts;
+    int scriptCount;
+    int scriptCapacity;
+
     Component** components;
     int componentCount;
     int componentCapacity;
 
 };
 
-Element* Element_New(const char* name);
+Element* Element_New();
 void Element_Setup(Element* element);
 void Element_Free(Element* element);
 
@@ -40,10 +44,14 @@ void Element_UpdateTree(Element* element, float dt);
 void Element_DrawTree(Element* element);
 void Element_FreeTree(Element* element);
 
-void Element_AddChild(Element* parent, Element* child);
+Element* Element_AddChild(Element* parent, Element* child);
 void Element_RemoveChild(Element* parent, Element* child);
 
-void Element_AddComponent(Element* element, Component* component);
-void Element_RemoveComponent(Element* element, Component* component);
+Script* Element_AddScript(Element* element, Script* script);
+void Element_RemoveScript(Element* element, Script* script);
 
-#define ELEMENT_CAST(type, elementPtr) ((type*)(elementPtr))
+Component* Element_AddComponent(Element* element, Component* component);
+void Element_RemoveComponent(Element* element, ComponentType* type);
+Component* Element_GetComponent(Element* element, ComponentType* type);
+
+#define Element_Cast(type, elementPtr) (type*)(elementPtr)

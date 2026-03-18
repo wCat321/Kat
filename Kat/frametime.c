@@ -2,14 +2,14 @@
 
 #include <stdio.h>
 
-Component* Component_FrameTime_New()
+Script* Script_FrameTime_New()
 {
-	Component* component = Component_New();
-	component->update = Component_FrameTime_Update;
-	return component;
+	Script* script = Script_New();
+	script->update = Script_FrameTime_Update;
+	return script;
 }
 
-void Component_FrameTime_Update(Component* component, float dt)
+void Script_FrameTime_Update(Script* script, float dt)
 {
 	printf("Frame time: %f\n", dt);
 }

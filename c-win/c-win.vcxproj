@@ -184,18 +184,25 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="component.c" />
+    <ClCompile Include="script.c" />
     <ClCompile Include="element.c" />
     <ClCompile Include="kat_engine.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Kat|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="point2d.c" />
+    <ClCompile Include="transform2d.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="2d.h" />
+    <ClInclude Include="component.h" />
     <ClInclude Include="element.h" />
     <ClInclude Include="gui.h" />
     <ClInclude Include="kat_engine.h" />
+    <ClInclude Include="point2d.h" />
     <ClInclude Include="raygui.h" />
     <ClInclude Include="raylib.h" />
-    <ClInclude Include="component.h" />
+    <ClInclude Include="script.h" />
+    <ClInclude Include="transform2d.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="raylib.lib" />

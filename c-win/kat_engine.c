@@ -46,12 +46,23 @@ void FreeQueue_Free(FreeQueue* queue)
         Element* element = queue->elements[i];
         if (!element) continue;
 
+        for (int j = 0; j < element->scriptCount; j++)
+        {
+            Script* script = element->scripts[j];
+            if (script && script->free)
+                script->free(script);
+        }
+
+        element->scriptCount = 0;
+
         for (int j = 0; j < element->componentCount; j++)
         {
             Component* component = element->components[j];
             if (component && component->free)
                 component->free(component);
         }
+
+        element->componentCount = 0;
 
         if (element->free)
             element->free(element);
@@ -99,18 +110,22 @@ int Engine_Start()
     return 0;
 }
 
-void Engine_SetRoot(Element* element)
+Element* Engine_SetRoot(Element* element)
 {
     root = element;
     if (game_start)
         Element_ReadyTree(root);
+    
+    return root;
 }
 
-void Engine_AddToScene(Element* parent, Element* child)
+Element* Engine_AddToScene(Element* parent, Element* child)
 {
     Element_AddChild(parent, child);
     if (game_start)
         Element_ReadyTree(child);
+
+    return child;
 }
 
 void Engine_Free(Element* tree)
