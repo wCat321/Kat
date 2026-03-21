@@ -183,26 +183,33 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="c_camera2d.c" />
     <ClCompile Include="component.c" />
+    <ClCompile Include="e_camera2d.c" />
     <ClCompile Include="script.c" />
     <ClCompile Include="element.c" />
-    <ClCompile Include="kat_engine.c">
+    <ClCompile Include="engine.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Kat|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="point2d.c" />
-    <ClCompile Include="transform2d.c" />
+    <ClCompile Include="e_point2d.c" />
+    <ClCompile Include="c_transform2d.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d.h" />
+    <ClInclude Include="component_collection.h" />
+    <ClInclude Include="c_camera2d.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="element.h" />
+    <ClInclude Include="engine.h" />
+    <ClInclude Include="e_camera2d.h" />
     <ClInclude Include="gui.h" />
     <ClInclude Include="kat_engine.h" />
-    <ClInclude Include="point2d.h" />
+    <ClInclude Include="e_point2d.h" />
     <ClInclude Include="raygui.h" />
     <ClInclude Include="raylib.h" />
+    <ClInclude Include="raymath.h" />
     <ClInclude Include="script.h" />
-    <ClInclude Include="transform2d.h" />
+    <ClInclude Include="c_transform2d.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="raylib.lib" />

@@ -10,7 +10,7 @@ void kat_init()
     GuiLoadStyle("./kat_style.rgs");
     Element* E_root = Engine_SetRoot(Element_New());
     Element* E_second = Engine_AddToScene(E_root, Element_New());
-    Point2D* P2_point = Engine_AddToScene(E_second, Element_Cast(Element, Point2D_New()));
+    E_Point2D* P2_point = Engine_AddToScene(E_second, Element_Cast(Element, E_Point2D_New()));
 
     Script* traverse = Element_AddScript(E_root, Script_Traverse_New());
 }

@@ -1,7 +1,16 @@
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
 
-#include "kat_engine.h"
+#include "engine.h"
+
+#include "element.h"
+#include "script.h"
+#include "component.h"
+
+#include "e_camera2d.h"
+
+#include "c_camera2d.h"
+
 #include <stdlib.h>
 
 typedef struct FreeQueue FreeQueue;
@@ -12,8 +21,22 @@ struct FreeQueue
     int elementCapacity;
 };
 
+typedef enum {
+    CAMERA_TYPE_2D,
+    CAMERA_TYPE_3D
+} CameraType;
+
+typedef struct ActiveCamera ActiveCamera;
+struct ActiveCamera
+{
+    Element* element;
+    CameraType type;
+    Component* camera;
+};
+
 Element* root;
 FreeQueue* free_queue;
+ActiveCamera active_camera = { 0 };
 
 int game_start = 0;
 
@@ -138,4 +161,10 @@ void Engine_Free(Element* tree)
 void Engine_QueueFree(Element* tree)
 {
     FreeQueue_Add(free_queue, tree);
+}
+
+E_Camera2D* Engine_SetCamera2D(E_Camera2D* camera2d)
+{
+    if (!camera2d) return NULL;
+
 }

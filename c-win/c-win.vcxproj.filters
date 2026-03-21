@@ -60,20 +60,26 @@
     <ClCompile Include="element.c">
       <Filter>Source Files\engine\scene</Filter>
     </ClCompile>
-    <ClCompile Include="kat_engine.c">
+    <ClCompile Include="engine.c">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
-    <ClCompile Include="point2d.c">
+    <ClCompile Include="e_point2d.c">
       <Filter>Source Files\engine\scene\2d</Filter>
     </ClCompile>
     <ClCompile Include="script.c">
       <Filter>Source Files\engine\script</Filter>
     </ClCompile>
-    <ClCompile Include="transform2d.c">
+    <ClCompile Include="c_transform2d.c">
       <Filter>Source Files\engine\component</Filter>
     </ClCompile>
     <ClCompile Include="component.c">
       <Filter>Source Files\engine\component</Filter>
+    </ClCompile>
+    <ClCompile Include="c_camera2d.c">
+      <Filter>Source Files\engine\component</Filter>
+    </ClCompile>
+    <ClCompile Include="e_camera2d.c">
+      <Filter>Source Files\engine\scene\2d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,7 +101,7 @@
     <ClInclude Include="2d.h">
       <Filter>Header Files\engine\scene\2d</Filter>
     </ClInclude>
-    <ClInclude Include="point2d.h">
+    <ClInclude Include="e_point2d.h">
       <Filter>Header Files\engine\scene\2d</Filter>
     </ClInclude>
     <ClInclude Include="script.h">
@@ -104,8 +110,23 @@
     <ClInclude Include="component.h">
       <Filter>Header Files\engine\component</Filter>
     </ClInclude>
-    <ClInclude Include="transform2d.h">
+    <ClInclude Include="c_transform2d.h">
       <Filter>Header Files\engine\component</Filter>
+    </ClInclude>
+    <ClInclude Include="raymath.h">
+      <Filter>Header Files\engine\ray</Filter>
+    </ClInclude>
+    <ClInclude Include="c_camera2d.h">
+      <Filter>Header Files\engine\component</Filter>
+    </ClInclude>
+    <ClInclude Include="engine.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="component_collection.h">
+      <Filter>Header Files\engine\component</Filter>
+    </ClInclude>
+    <ClInclude Include="e_camera2d.h">
+      <Filter>Header Files\engine\scene\2d</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
